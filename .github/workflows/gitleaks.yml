@@ -18,7 +18,13 @@ concurrency:
 jobs:
   scan:
     name: secret taraması
-    runs-on: ubuntu-latest
+    # Self-hosted: GitHub her job'i dakikaya YUKARI yuvarliyor. Bu akis 20
+    # gunde 369 kez kostu, kosu basina ~12 saniye surdu ve 369 DAKIKA
+    # faturalandi — 74 dakikalik gercek isin 5 kati, org kotasinin %23'u.
+    # Ayrica 2026-08-21 fatura kesintisinden beri hosted isler baslamiyordu,
+    # yani secret-scan gate'i hic kosmuyordu. dockerhost1 bos duruyor;
+    # ai-agent-main'e (aws) yuklemiyoruz, orada claw kosuyor.
+    runs-on: [self-hosted, dockerhost1]
     timeout-minutes: 15
     steps:
       # fetch-depth: 0 şart — gitleaks commit GEÇMİŞİNİ tarar, sığ klonda
